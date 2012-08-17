@@ -20,6 +20,7 @@ public:
 	ofxLatLon() {};
 	ofxLatLon(ofxQuaternionExtra q);
 	ofxLatLon(float lat, float lon);
+    ofxLatLon(string iso6709Lat, string iso6709Lon);
 
 	ofxLatLon& operator=(ofxQuaternionExtra q);
 

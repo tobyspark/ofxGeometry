@@ -86,6 +86,43 @@ ofxLatLon::ofxLatLon(float lat, float lon) {
 	this->lon = lon;
 }
 
+float iso6709ToFloat(string str)
+{
+    stringstream ss(str);
+
+    string tempStr, dirStr;
+    
+    char degreeSign = 0xb0;
+    getline(ss, tempStr, degreeSign);
+    stringstream degstr(tempStr);
+    
+    getline(ss, tempStr, '\'');
+    stringstream minstr(tempStr);
+    
+    getline(ss, tempStr, '"');
+    stringstream secstr(tempStr);
+    
+    getline(ss, dirStr);
+    
+    float degs, mins, secs, dir = 0;
+    if (dirStr == "N") dir = 1;
+    if (dirStr == "E") dir = 1;
+    if (dirStr == "S") dir = -1;
+    if (dirStr == "W") dir = -1;
+    degstr >> degs;
+    minstr >> mins;
+    secstr >> secs;
+    
+    if (dir == 0) { ofLog(OF_LOG_WARNING, "Failed to parse NSEW in Lat/Long string"); }
+        
+    return dir * (degs + mins/60.0f + secs/3600.0f);
+}
+
+ofxLatLon::ofxLatLon(string lat, string lon) {
+	this->lat = iso6709ToFloat(lat);
+	this->lon = iso6709ToFloat(lon);
+}
+
 ofxLatLon::ofxLatLon(ofxQuaternionExtra q) {
 	*this = q;
 }
