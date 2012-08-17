@@ -12,9 +12,9 @@ ofxCartesian& ofxCartesian::operator=(ofxLatLon ll) {
 	//from ofxLatLon to ofxCartesian
 	float phi = ofDegToRad(ll.lat + 90);
 	float theta = ofDegToRad(ll.lon - 90);
-	x =  sin(phi) * cos(theta);
-	y =  sin(phi) * sin(theta);
-	z = -cos(phi);
+	this->x =  sin(phi) * cos(theta);
+	this->y =  sin(phi) * sin(theta);
+	this->z = -cos(phi);
 	if (ll.lat>=0) x=-x;		
 	return *this;
 }
@@ -26,7 +26,7 @@ ofxQuaternionExtra& ofxQuaternionExtra::operator=(ofxLatLon ll) {
 
 ofxQuaternionExtra& ofxQuaternionExtra::operator=(ofxCartesian cp) {
 	//from ofxCartesian to ofxQuaternionExtra
-	*this = ofxMatrix4x4(0,0,0,0, 0,0,0,0, -cp.x,-cp.y,-cp.z,0, 0,0,0,1);
+	*this = ofMatrix4x4(0,0,0,0, 0,0,0,0, -cp.x,-cp.y,-cp.z,0, 0,0,0,1);
 	return *this;
 }
 
@@ -39,12 +39,12 @@ ofxLatLon& ofxLatLon::operator=(ofxQuaternionExtra q) {
 	return *this;
 };
 
-ofxCartesian& ofxCartesian::operator=(ofxQuaternion q) {
+ofxCartesian& ofxCartesian::operator=(ofQuaternion q) {
 	//from ofxQuaternionExtra to ofxCartesian
-	ofxVec4f v(0,0,-1,0);
-	ofxMatrix4x4 m;
+	ofVec4f v(0,0,-1,0);
+	ofMatrix4x4 m;
 	q.get(m);
-	ofxVec4f mv = m*v;
+	ofVec4f mv = m*v;
 	set(mv.x,mv.y,mv.z);
 	return *this;
 }
@@ -56,7 +56,7 @@ ofxAxisAngle& ofxAxisAngle::operator=(ofxQuaternionExtra q) {
 }
 
 void ofxQuaternionExtra::rotate(ofxAxisAngle aa) {
-	(*this) *= ofxQuaternion(aa.angle,aa.axis);
+	(*this) *= ofQuaternion(aa.angle,aa.axis);
 }
 
 void ofxQuaternionExtra::rotateX(float angle) { //degrees?
@@ -90,7 +90,7 @@ ofxLatLon::ofxLatLon(ofxQuaternionExtra q) {
 	*this = q;
 }
 
-ofxQuaternionExtra& ofxQuaternionExtra::operator=(ofxQuaternion q) {
+ofxQuaternionExtra& ofxQuaternionExtra::operator=(ofQuaternion q) {
 	set(q);
 	return *this;
 }

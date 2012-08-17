@@ -31,51 +31,51 @@ public:
 class ofxAxisAngle {
 public:
 	ofxAxisAngle() : angle(0) {};
-	ofxAxisAngle(ofxQuaternion q) { *this = q; };
-	ofxAxisAngle(ofxVec3f axis, float angle) : axis(axis), angle(angle) {};
+	ofxAxisAngle(ofQuaternion q) { *this = q; };
+	ofxAxisAngle(ofVec3f axis, float angle) : axis(axis), angle(angle) {};
 	ofxAxisAngle(float x, float y, float z, float angle) : angle(angle) { axis.set(x,y,z); };
 	ofxAxisAngle(ofxCartesian c);
 
 	ofxAxisAngle& operator= (ofxQuaternionExtra q);
 
-	ofxVec3f axis;
+	ofVec3f  axis;
 	float angle;
 };
 
-class ofxCartesian : public ofxVec3f {
+class ofxCartesian : public ofVec3f  {
 public:
 	ofxCartesian() {};
 	ofxCartesian(ofxLatLon ll) { *this = ll; };
 	ofxCartesian(float x, float y, float z) { set(x,y,z); };
-	ofxCartesian(ofxQuaternion q) { *this = q; };
+	ofxCartesian(ofQuaternion q) { *this = q; };
 
 	ofxCartesian& operator= (ofxLatLon ll);
-	ofxCartesian& operator= (ofxQuaternion q);
+	ofxCartesian& operator= (ofQuaternion q);
 
 	friend ostream& operator <<(ostream &os,const ofxCartesian c);
 };
 
-class ofxQuaternionExtra : public ofxQuaternion {
+class ofxQuaternionExtra : public ofQuaternion {
 public:
 
 	ofxQuaternionExtra() {};
 	ofxQuaternionExtra(ofxLatLon ll) { *this = ll; };
 	//ofxQuaternionExtra(ofxLatLon ll, float degrees);
-	ofxQuaternionExtra(ofxQuaternion q) { *this = q; };
+	ofxQuaternionExtra(ofQuaternion q) { *this = q; };
 	ofxQuaternionExtra(ofxCartesian c) { *this = c; };
-	ofxQuaternionExtra(ofxMatrix4x4 m) { *this = m; };
+	ofxQuaternionExtra(ofMatrix4x4 m) { *this = m; };
 
 	ofxQuaternionExtra& operator=(ofxLatLon ll);
-	ofxQuaternionExtra& operator=(ofxQuaternion q);
+	ofxQuaternionExtra& operator=(ofQuaternion q);
 	ofxQuaternionExtra& operator=(ofxCartesian c);
-	ofxQuaternionExtra& operator=(ofxMatrix4x4 m) { set(m); };
+	ofxQuaternionExtra& operator=(ofMatrix4x4 m) { set(m); };
 
 	void rotate(ofxAxisAngle aa);
 	void rotateX(float angle);
 	void rotateY(float angle);
 	void rotateZ(float angle);
 
-	ofxVec3f getAxis();
+	ofVec3f  getAxis();
 	float getAngle();
 	float getDistance(ofxLatLon ll);
 
